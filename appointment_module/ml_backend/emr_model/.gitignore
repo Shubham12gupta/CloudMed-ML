@@ -1,0 +1,17 @@
+# ── Trained model files (large, go to S3/server — never to git) ──
+models/*.pkl
+models/*.csv
+models/*.npy
+models/*.index
+models/*.h5
+models/*.pt
+
+# ── Jupyter notebook outputs ──────────────────────────────────────
+model_training/*.ipynb
+.ipynb_checkpoints/
+
+# ── Python runtime ────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store

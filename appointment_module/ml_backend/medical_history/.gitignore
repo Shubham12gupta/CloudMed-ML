@@ -1,0 +1,37 @@
+# ── Model files (go to S3, never to git) ─────────────────────
+models/
+*.pkl
+*.csv
+*.npy
+*.index
+*.h5
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# ── Python runtime ────────────────────────────────────────────
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ── Jupyter / experiment files ────────────────────────────────
+*.ipynb
+.ipynb_checkpoints/
+
+# ── OS / editor noise ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+logs/
