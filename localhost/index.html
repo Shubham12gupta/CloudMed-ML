@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Medical ML Demo Portal</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    background:#1e40af;
+    color:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+label{
+    display:block;
+    margin-bottom:5px;
+    font-weight:bold;
+}
+
+.btn{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:10px;
+    margin-top:10px;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+.result-card{
+    background:#f8fafc;
+    border-left:5px solid #2563eb;
+    padding:15px;
+    margin-top:10px;
+    border-radius:8px;
+}
+
+.bar{
+    height:10px;
+    background:#e5e7eb;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:5px;
+}
+
+.bar-fill{
+    height:100%;
+    background:#2563eb;
+}
+
+.section-title{
+    margin-bottom:15px;
+    color:#1f2937;
+}
+
+.response{
+    margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🏥 Medical ML Demo Portal</h1>
+        <p>Consultation + Medical History Prediction</p>
+    </div>
+
+    <div class="card">
+
+        <h2 class="section-title">Patient Information</h2>
+
+        <div class="grid">
+
+            <div>
+                <label>Age</label>
+                <input id="age" value="45">
+            </div>
+
+            <div>
+                <label>Gender</label>
+                <select id="gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Blood Group</label>
+                <select id="blood_group">
+                    <option>B+</option>
+                    <option>O+</option>
+                    <option>A+</option>
+                    <option>AB+</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Season</label>
+                <select id="season">
+                    <option>Winter</option>
+                    <option>Summer</option>
+                    <option>Rainy</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Temperature</label>
+                <input id="temperature" value="101">
+            </div>
+
+            <div>
+                <label>Pulse</label>
+                <input id="pulse" value="90">
+            </div>
+
+        </div>
+
+        <button class="btn" onclick="predict('complaints')">
+            Predict Complaints
+        </button>
+
+        <button class="btn" onclick="predict('findings')">
+            Predict Findings
+        </button>
+
+        <button class="btn" onclick="predict('diagnosis')">
+            Predict Diagnosis
+        </button>
+
+        <button class="btn" onclick="predict('medical_problems')">
+            Medical Problems
+        </button>
+
+    </div>
+
+    <div class="card response">
+
+        <h2>Prediction Results</h2>
+
+        <div id="results">
+            No prediction yet
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const API_MAP = {
+
+    complaints:
+    "http://43.204.191.63:5003/api/predict/complaints",
+
+    findings:
+    "http://43.204.191.63:5003/api/predict/findings",
+
+    diagnosis:
+    "http://43.204.191.63:5003/api/predict/diagnosis",
+
+    medical_problems:
+    "http://43.204.191.63:5002/api/predict/medical_problems"
+};
+
+function patientPayload(){
+
+    return {
+
+        patient:{
+            age:Number(document.getElementById("age").value),
+            gender:document.getElementById("gender").value,
+            blood_group:document.getElementById("blood_group").value,
+            season:document.getElementById("season").value,
+            has_history:true,
+            place:"Mumbai"
+        },
+
+        vitals:{
+            temperature:Number(document.getElementById("temperature").value),
+            pulse:Number(document.getElementById("pulse").value),
+            spo2:98,
+            bp:"120/80"
+        },
+
+        medical_history:{},
+        known_tabs:{}
+    };
+}
+
+async function predict(type){
+
+    const url = API_MAP[type];
+
+    try{
+
+        document.getElementById("results").innerHTML =
+        "Loading...";
+
+        const response = await fetch(url,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(patientPayload())
+        });
+
+        const data = await response.json();
+
+        renderResults(data);
+
+    }catch(err){
+
+        document.getElementById("results").innerHTML =
+        "<div style='color:red'>" + err + "</div>";
+    }
+}
+
+function renderResults(data){
+
+    let html="";
+
+    const suggestions = data.suggestions || [];
+
+    suggestions.forEach(item=>{
+
+        html += `
+        <div class="result-card">
+
+            <strong>${item.label}</strong>
+
+            <div>
+                Confidence :
+                ${item.confidence}%
+            </div>
+
+            <div class="bar">
+                <div class="bar-fill"
+                     style="width:${item.confidence}%">
+                </div>
+            </div>
+
+        </div>
+        `;
+    });
+
+    if(!html){
+        html =
+        "<pre>"+JSON.stringify(data,null,2)+"</pre>";
+    }
+
+    document.getElementById("results").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
