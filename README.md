@@ -3,7 +3,9 @@
 An end-to-end Machine Learning web application designed to predict potential health conditions (such as Thyroid Disorder, Anemia, Hypertension, and more) based on real-time patient vitals. The system is fully deployed on AWS using a robust, scalable cloud architecture.
 
 ## 🚀 Live Demo
-🔗 **[Insert your live EC2 public URL or Domain link here]**
+🔗 <img width="1726" height="969" alt="Screenshot 2026-05-30 223933" src="https://github.com/user-attachments/assets/0d473a6a-1319-43cd-a21f-d9cec448567e" />
+
+<img width="1697" height="979" alt="Screenshot 2026-05-30 223948" src="https://github.com/user-attachments/assets/1577be1a-3e37-4ffe-8c67-0d15496d24d4" />
 
 ---
 
@@ -19,9 +21,6 @@ An end-to-end Machine Learning web application designed to predict potential hea
 - **Production-Ready Architecture:** Designed with modern cloud infrastructure separating compute, storage, and database layers.
 
 ---
-<img width="1726" height="969" alt="Screenshot 2026-05-30 223933" src="https://github.com/user-attachments/assets/0d473a6a-1319-43cd-a21f-d9cec448567e" />
-
-<img width="1697" height="979" alt="Screenshot 2026-05-30 223948" src="https://github.com/user-attachments/assets/1577be1a-3e37-4ffe-8c67-0d15496d24d4" />
 
 ## 🛠️ Tech Stack & Architecture
 
