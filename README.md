@@ -10,8 +10,7 @@ An end-to-end Machine Learning web application designed to predict potential hea
 ---
 
 ## 📸 Interface Preview
-![Medical ML Demo Portal](https://raw.githubusercontent.com/Shubham12gupta/MLModel/main/localhost) 
-*(Note: Replace this with the actual path to your screenshot if needed)*
+http://43.204.191.63
 
 ---
 
